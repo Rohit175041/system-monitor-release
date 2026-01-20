@@ -58,5 +58,7 @@ SystemMonitor/
 
 
 ```
-![System Monitor Tray](assets/log_file.PNG)
+<p align="center">
+  <img src="./assets/log_file.PNG" alt="log file" width="700"/>
+</p>
 
