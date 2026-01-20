@@ -53,11 +53,9 @@ SystemMonitor/
 - .\system-monitor.exe
 
 ## Metrics collection
+
 - http://localhost:8080/metrics
 
-
-
-```
 <p align="center">
   <img src="assets/log_file.png" alt="log file" width="700"/>
 </p>
