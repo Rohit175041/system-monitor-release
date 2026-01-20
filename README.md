@@ -59,6 +59,6 @@ SystemMonitor/
 
 ```
 <p align="center">
-  <img src="./assets/log_file.png" alt="log file" width="700"/>
+  <img src="assets/log_file.png" alt="log file" width="700"/>
 </p>
 
