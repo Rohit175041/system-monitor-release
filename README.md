@@ -57,3 +57,5 @@ SystemMonitor/
 
 
 
+```
+![System Monitor Tray](assets/tray.png)
