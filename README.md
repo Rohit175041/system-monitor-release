@@ -58,4 +58,4 @@ SystemMonitor/
 
 
 ```
-![System Monitor Tray](assets/tray.png)
+![System Monitor Tray](assets/log_file.PNG)
