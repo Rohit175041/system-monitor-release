@@ -4,12 +4,13 @@
 
   "json_log_file": "logs/system_metrics.log",
   "csv_log_file": "logs/system_metrics.csv",
+  "crash_log_file": "logs/system_crash.log",
 
   "log_max_size_mb": 1,
   "log_max_backups": 5,
 
-  "battery_alert_percent": 30,
-  "cpu_alert_percent": 60,
+  "battery_alert_percent": 20,
+  "cpu_alert_percent": 50,
 
   "http_port": 8080
 }

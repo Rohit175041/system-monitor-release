@@ -1,62 +1,115 @@
-# System Monitor – Windows (Release)
+# System Monitor (Windows, Go)
 
-This is the **release build** of the System Monitor application for **Windows**.  
-It is distributed as a **portable executable** and does **not require any runtime installation**.
+Windows desktop system monitor with tray UI, periodic metrics collection, local HTTP metrics, rotating logs, and crash logging.
 
----
+## Features
 
-## System Requirements
+- CPU, memory, disk, battery, and network sampling
+- Async JSON and CSV metric logging
+- Size-based log rotation (`.1`, `.2`, ...)
+- Dedicated crash/error log file
+- Tray status display with live values
+- GUI build by default (no console window on launch)
+- HTTP endpoints:
+  - `GET /metrics`
+  - `GET /health`
 
-- Windows 10 / Windows 11 (64-bit)
-- Administrator privileges (optional, only required for auto-start)
+## Requirements
 
----
+- Windows
+- Go 1.22+ (or compatible with your `go.mod`)
 
-## Installation
+## Build
 
-No installer is required.
+From repo root:
 
-### 1. Extract Files
-Copy the release folder to any location:
+```powershell
+.\build\build.ps1
 ```
-SystemMonitor/
-├── system-monitor.exe
-├── configs/
-│   └── config_windows.json
-├── assets/
-│   └── icon.ico
-├── logs/
-│   ├── system_metrics.log
-│   └── system_metrics.csv
-└── README.txt
- 
- ```
 
-**Important notes:**
-- The `logs/` directory **must exist** before starting the application.
-- Configuration is loaded from `configs/config_windows.json`.
-- The tray icon is loaded from `assets/icon.ico`.
-- Log files are created and rotated automatically inside `logs/`.
+Useful options:
 
----
+```powershell
+.\build\build.ps1 -RunTests -Clean
+.\build\build.ps1 -Output system-monitor-dev.exe
+.\build\build.ps1 -NoGui
+```
 
-## Running the Application
+Output binary is created in repo root (default: `system-monitor.exe`).
+Default build mode is GUI (`-ldflags=-H=windowsgui`).
 
-- The application starts as a **background system tray process**
-- No terminal or console window is shown
-- Metrics collection begins immediately
+## Run / Stop
 
----
+Start with script (recommended):
 
-### 1: Run from terminal or code editor
+```powershell
+.\build\start.ps1
+```
 
-- .\system-monitor.exe
+Start and rebuild first:
 
-## Metrics collection
+```powershell
+.\build\start.ps1 -Rebuild
+```
 
-- http://localhost:8080/metrics
+Stop:
 
-<p align="center">
-  <img src="assets/log_file.png" alt="log file" width="700"/>
-</p>
+```powershell
+.\build\stop.ps1
+```
 
+## Logs
+
+Default log files:
+
+- `logs/system_metrics.log` (JSON metrics)
+- `logs/system_metrics.csv` (CSV metrics)
+- `logs/system_crash.log` (application errors/panics)
+- `logs/process.out.log` (process stdout from `start.ps1`)
+- `logs/process.err.log` (process stderr from `start.ps1`)
+- `logs/system-monitor.pid` (PID file for stop script)
+
+Rotation is controlled by:
+
+- `log_max_size_mb`
+- `log_max_backups`
+
+When size limit is reached, files rotate to `*.1`, `*.2`, etc.
+
+## Configuration
+
+Config file: `configs/config_windows.json`
+
+Main keys:
+
+- `log_interval_sec`
+- `tray_refresh_sec`
+- `json_log_file`
+- `csv_log_file`
+- `crash_log_file`
+- `log_max_size_mb`
+- `log_max_backups`
+- `battery_alert_percent`
+- `cpu_alert_percent`
+- `http_port`
+
+## Project Structure
+
+```text
+system-monitor-windows/
+|-- cmd/agent/main_windows.go
+|-- configs/config_windows.json
+|-- internal/
+|   |-- alerts/
+|   |-- autostart/
+|   |-- collector/
+|   |-- config/
+|   |-- logger/
+|   |-- model/
+|   `-- server/
+|-- build/
+|   |-- build.ps1
+|   |-- start.ps1
+|   `-- stop.ps1
+`-- logs/
+```
