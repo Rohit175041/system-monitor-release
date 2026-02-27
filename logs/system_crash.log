@@ -1,0 +1,3 @@
+2026/02/27 18:31:55.952501 main_windows.go:25: System Monitor starting
+2026/02/27 18:32:28.965512 alerts_windows.go:25: ALERT high CPU usage: 52.54%
+2026/02/27 18:32:54.964298 alerts_windows.go:25: ALERT high CPU usage: 54.30%
